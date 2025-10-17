@@ -1,22 +1,3 @@
 print("hello")
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, max
 
-# creating spark session
-spark = SparkSession.builder.appName("secondHighSalary").getOrCreate()
-
-# sample dataset
-employeeData = [("Alice", 5000), ("Bob", 6000), ("Charlie", 7000), ("David", 7000)]
-df = spark.createDataFrame(employeeData, ["EmployeeName", "Salary"])
-
-# trying to get second highest salary (but functionally wrong)
-sorted_df = df.orderBy(col("Salary").desc())
-second_highest_salary = sorted_df.limit(2).collect()[1][1]  # ❌ Wrong if top salary repeats
-
-# print result
-print("Second Highest Salary is :", second_highest_salary)
-
-# extra function not used
-def findSecondHighest(df):
-    df.orderBy(col("Salary").desc()).limit(2).show()
 
